@@ -1,17 +1,32 @@
 #include <stdio.h>
 #include <sys/mman.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
-int main() {
+int main()
+{
 
-	/* Open an executable file here */
-	/* ... */
+	int fd;
+	if ((fd = open("dummy", O_RDONLY)) < 0)
+	{
+		fprintf(stderr, "Error opening file: %s\n", strerror(errno));
+		exit(1);
+	}
 
-	/* Fill in the details here! */
-	void *ptr = mmap(...);
+	void *ptr;
+	if ((ptr = mmap(NULL, 0x4A, PROT_EXEC, MAP_PRIVATE, fd, 0x1000)) == MAP_FAILED)
+	{
+		fprintf(stderr, "Error calling mmap: %s\n", strerror(errno));
+		exit(1);
+	}
+	printf("%p\n", ptr);
+	close(fd);
 
-	/* Copy the bytes here */
-	/* ... */
+	(*(void (*)())ptr + 0x0106)();
 
-	/* This monster casts ptr to a function pointer with no args and calls it. Basically jumps to your code. */
-	(*(void(*)()) ptr)();
+	exit(0);
 }
