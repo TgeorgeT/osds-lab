@@ -1,12 +1,14 @@
 #include <stdio.h>
 
-int win() {
+int win()
+{
 	puts("ESCAPING THE MATRIX...");
 	return 0;
 }
 
-int main() {
-	long a = 0;
+int main()
+{
+	long a = 2;
 	int b = 15;
 	char buffer[32];
 	scanf("%s", buffer);

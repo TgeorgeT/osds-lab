@@ -3,7 +3,7 @@
 from pwn import *
 
 # you have to set this before using asm()
-context.update(arch='amd64', os='linux')
+context.update(arch="amd64", os="linux")
 
 target = process("./bin/ex4")
 
@@ -19,12 +19,12 @@ print(f"Bytecode: {payload}")
 # craft your payload
 # payload = ...
 
-#target.send(payload)
-#target.interactive()
+# target.send(payload)
+# target.interactive()
 
 
 # you can also do it by hand, with asm()
-# u64() unpacks bytestrings to numbers
+# u64() unpacks bytestrings to number
 
 craft_payload = asm(shellcraft.amd64.mov("rdi", u64(b"/bin/cat")))
 hand_payload = asm(f"mov rdi, {u64(b'/bin/cat')}")
