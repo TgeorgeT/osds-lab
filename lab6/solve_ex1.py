@@ -16,7 +16,6 @@ io = gdb.debug(
     """,
 )
 
-# address of config -> 0xb726c0
 system = 0x401060
 
 
