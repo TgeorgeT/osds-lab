@@ -40,17 +40,18 @@ struct Student {
 
 struct Homework {
 	char title[16];
-	char content[64];
+	char content[56];
 };
 ```
 
-Imagine objects of both are allocated on the heap. If a `Student` object is allocated on the heap, it will take `64 + 4 + 4 = 72` bytes of memory. The `Homework` object takes `16 + 64 = 80` bytes of memory.
+Imagine objects of both are allocated on the heap. If a `Student` object is allocated on the heap, it will take `64 + 4 + 4 = 72` bytes of memory. The `Homework` object takes `16 + 56 = 72` bytes of memory.
 We can imagine that a student can input their `name` and their `age`, but not their `grade`, that should be decided by the teachers.
 Additionally, a student can turn in homework, where they can input both the `title` and the `content`.
 
 If a `Student` object is allocated on the heap and then freed, the next object that gets allocated on the heap (depending on implementations) will take its spot.
+Usually, to reuse the chunk, the object has to be of the same size or less than the chunk to be reused, so it can fit in.
 So if a student turns in homework after the `Student` object got freed, the `Homework` object will take its chunk.
-Because the `Homework` object has more user-controlled bytes (80 instead of 68), if this chunk is interpreted as a `Student` instead of a `Homework` object, then the `grade` field can be modified.
+Because the `Homework` object has more user-controlled bytes (72 instead of 68), if this chunk is interpreted as a `Student` instead of a `Homework` object, then the `grade` field can be modified.
 
 ![User-After-Free](../img/use_after_free.png)
 
@@ -111,4 +112,4 @@ Keep the same values for the metadata as seen at runtime. *Sometimes it works wi
 
 Coding challenge for this one:
 
-1. **Contribute to Open-Source Software!** -- Do you like contributing? Did you see how `gef` has nice heap chunk visualization and `pwndbg` does not also print the content? How about porting that functionality over? `pwndbg` is very friendly to new contributors!
+1. **Contribute to Open-Source Software!** -- Do you like contributing? Did you see how `gef` has nice heap chunk visualization and `pwndbg` does not also print the content? How about porting that functionality over? `pwndbg` is very friendly to new contributors and this feature should be quite straight-forward and easy to do. Give me a message if you are unsure how to start!
